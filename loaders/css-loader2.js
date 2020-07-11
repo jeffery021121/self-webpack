@@ -1,120 +1,42 @@
-let { stringifyRequest } = require('loader-utils');
-let postcss = require('postcss');
-var Tokenizer = require('css-selector-tokenizer');
-/**
- * @import 引入别的CSS文件
- */
-function loader(source) {
-  let plugin = (options) => {
-    return (cssRoot) => {//cssRoot的根
-      cssRoot.walkAtRules(/^import$/, (rule) => {
-        console.log(JSON.stringify(rule, null, 2));
+const { stringifyRequest } = require('loader-utils')
+const postcss = require('postcss')
+const tokenizer = require('css-selector-tokenizer')
 
-        rule.remove();//把这个规则干掉
-        //把引入的CSS文件放扩imports数组中
-        options.imports.push(rule.params.slice(1, -1));//./global.css
-      });
-      cssRoot.walkDecls(decl => {
-        let values = Tokenizer.parseValues(decl.value);
-        //console.log(JSON.stringify(values,null,2));
-        values.nodes.forEach(value => {
-          value.nodes.forEach(item => {
-            if (item.type === 'url') {
-              item.url = "`+require(" + stringifyRequest(this, item.url) + ")+`";
-            }
+/**
+ * 前置知识就是了解 postcss 和 css-selector-tokenizer这两个库怎么使用
+ * postcss api http://api.postcss.org/postcss.html#.plugin
+ * https://dockyard.com/blog/2018/02/01/writing-your-first-postcss-plugin 这篇文章叫你怎么写postcss插件以及一些变量的含义
+ * css-selector-tokenizer
+*/
+
+// const selfTestPostcssplugin = 
+const postcssTestPlugin = postcss.plugin('postcss-test-plugin', function () {
+  return function (root) {
+    root.walkRules(function (rule) {
+      rule.walkDecls(/^overflow-?/, function (decl) {
+        if (decl.value === 'scroll') {
+          var hasTouch = rule.some(function (i) {
+            return i.prop === '-webkit-overflow-scrolling';
           });
-        });
-        decl.value = Tokenizer.stringifyValues(values);
-        console.log('decl', decl);
+          if (!hasTouch) {
+            rule.append({
+              prop: '-webkit-overflow-scrolling',
+              value: 'touch'
+            });
+          }
+        }
       });
-    }
-  }
-  let callback = this.async();
-  let options = { imports: [] };
-  //安排流水线,让插件一个一个执行,处理css文本
-  let pipeline = postcss(plugin(options));
-  //开始执行流水线
-  pipeline.process(source).then(function (result) {
-    //console.log(options.imports);
-    //console.log(result.css);
-    //options.imports=['./global.css']
-    let importCSS = options.imports.map(url => "`+require(" + stringifyRequest(this, "!!css-loader2!" + url) + ")+`").join("\r\n");
-    console.log('importCSS', importCSS);
-    callback(null, "module.exports= `" + importCSS + "\r\n" + result.css + "`");
-  });
-}
-module.exports = loader;
+    });
+  };
+});
 
-/**
-{
-  "type": "values",
-  "nodes": [
-    {
-      "type": "value",
-      "nodes": [
-        {
-          "type": "item",
-          "name": "100px"
-        }
-      ]
-    }
-  ]
+function loader(source,inputSourceMap,data){
+
+  return source
 }
-{
-  "type": "values",
-  "nodes": [
-    {
-      "type": "value",
-      "nodes": [
-        {
-          "type": "item",
-          "name": "100px"
-        }
-      ]
-    }
-  ]
+
+module.exports = loader
+
+loader.pitch=function(){
+
 }
-{
-  "type": "values",
-  "nodes": [
-    {
-      "type": "value",
-      "nodes": [
-        {
-          "type": "url",
-          "stringType": "'",
-          "url": "./logo.png"
-        }
-      ]
-    }
-  ]
-}
-{
-  "type": "values",
-  "nodes": [
-    {
-      "type": "value",
-      "nodes": [
-        {
-          "type": "item",
-          "name": "cover"
-        }
-      ]
-    }
-  ]
-}
-{
-  "type": "values",
-  "nodes": [
-    {
-      "type": "value",
-      "nodes": [
-        {
-          "type": "item",
-          "name": "red"
-        }
-      ]
-    }
-  ]
-}
- */

@@ -52,7 +52,7 @@ module.exports = {
             loader: 'url-loader2',
             options: {
               filename: '[hash].[ext]',
-              limit: 64 * 1024
+              limit: 8 * 1024
               //如果文件的字节数小于64的话,就不拷贝文件了,直接base64
             }
           }
