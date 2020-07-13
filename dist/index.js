@@ -93,7 +93,8 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports= `
+
+module.exports=`
 body{
     background-color: green;
 }`
@@ -107,7 +108,8 @@ body{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports= ``+__webpack_require__(/*! !css-loader2!./global.css */ "./loaders/css-loader2.js!./src/global.css")+`
+__webpack_require__(/*! ./global.css */ "./src/global.css")
+module.exports=`
 .avatar {
     width: 100px;
     height: 100px;
@@ -118,6 +120,21 @@ div {
     font-size: 30px;
 }
 `
+
+/***/ }),
+
+/***/ "./src/global.css":
+/*!************************!*\
+  !*** ./src/global.css ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+  const style = document.createElement('style')
+  style.innerHTML=__webpack_require__(/*! !../loaders/css-loader2.js!./global.css */ "./loaders/css-loader2.js!./src/global.css")
+  document.head.appendChild(style)
+  
 
 /***/ }),
 
