@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "ast":"node ./ast/arrowFuncton.js"
+    "ast": "node ./ast/arrowFuncton.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "@babel/types": "^7.10.4",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.6.0",
     "css-selector-tokenizer": "^0.7.2",
