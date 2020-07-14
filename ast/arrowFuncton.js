@@ -21,12 +21,12 @@ function selfPlugin(bable) {
         const id = path.parentPath.scope.generateUidIdentifier('this')
         path.parentPath.scope.push({ id, init: t.thisExpression() })
         path.node.type = 'FunctionExpression'
-        const thisPaths = []
-        path.traverse({
+        const thisVisitor={
           ThisExpression(child) {
             child.replaceWith(t.identifier(id.name))
           }
-        })
+        }
+        path.traverse(thisVisitor)
       }
     }
   }
