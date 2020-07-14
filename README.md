@@ -8,13 +8,18 @@
 - file-loader
 - style-loader
 - less-loader
-- loaderRunner
+- loaderRunner(blog)
+- css-loader
 
 ### 正在实现
 
-- css-loader
+- ast解析(blog)
 
 ### 需要实现
 
-- tapable
-- ast解析
+- tapable(这个估计没有时间了)
+- plugin
+- 手写webpack
+- 详述webpack执行流程（blog）
+- loader和plugin也各自出一篇 blog
+- webpack详细配置出一篇 blog
