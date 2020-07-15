@@ -35,6 +35,7 @@ function clssTransform(babel) {
                         baseStament = t.FunctionDeclaration(id, method.params, method.body, false, false)
                     } else {
                         const operator = '='
+                        // t.memberExpression的参数都是identifier
                         const left=t.memberExpression(t.memberExpression(id,t.identifier('prototype')), method.key)
                         const right = t.FunctionExpression(method.key, method.params, method.body) 
                         const AssignmentExpression = t.assignmentExpression(operator, left, right)
