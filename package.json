@@ -27,7 +27,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "less": "^3.11.3",
-    "loader-utils": "^2.0.0",
+    "loader-utils": "^2.0.4",
     "mime": "^2.4.6",
     "postcss": "^7.0.32",
     "webpack": "^4.43.0",
